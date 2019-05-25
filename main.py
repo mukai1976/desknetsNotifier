@@ -200,6 +200,8 @@ def getSchedule(driver):
 
 ################## main starts here ##################################
 if __name__ == "__main__":
+    print( "start:" + str(datetime.datetime.now()))
+    
     sc = SlackClient(SLACK_TOKEN)
 
     driver = makeDriver(headless=HEADLESSNESS)
@@ -269,3 +271,4 @@ if __name__ == "__main__":
         username="desknet's NEO スケジュール連携",
         user=SLACK_USER_ID
         )
+    print( "end:" + str(datetime.datetime.now()))
