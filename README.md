@@ -1,5 +1,5 @@
 # desknetsNotifier
-デスクネッツの当日スケジュールをSlackへpush通知する  
+デスクネッツの当日スケジュールをSlackへpush通知
 （参考にさせて頂いたサイト：https://github.com/kentoku24/desknetsNotifier）
 
 - 使い方
