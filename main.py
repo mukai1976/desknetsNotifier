@@ -51,7 +51,7 @@ args = sys.argv
 # credentials_mukai.yaml
 with open(args[1],"r") as stream:
     try:
-        credentials = yaml.load(stream)
+        credentials = yaml.load(stream, Loader=yaml.SafeLoader)
         globals().update(credentials)
     except yaml.YAMLError as exc:
         print(exc)
@@ -119,8 +119,8 @@ def loginDesknets(driver):
     userId_box.send_keys(DN_USERNAME)
     pass_box.send_keys(DN_PASSWORD)
 
-    driver.save_screenshot('0before login.png')
-    print( "saved before login" )
+    #driver.save_screenshot('0before login.png')
+    #print( "saved before login" )
 
     #login
     driver.find_element_by_id('login-btn').click()
@@ -129,15 +129,17 @@ def loginDesknets(driver):
     elem = driver.find_element_by_css_selector(".portal-cal-body")
 
     #スケジュール画面遷移
-    sleep(1)
+    sleep(3)
     driver.find_element_by_css_selector('#portal-content-1 > div.portal-content-titlebar > h3 > a').click()
-    sleep(1)
+    sleep(3)
     driver.find_element_by_css_selector('#jsch-tab-schweekgrp > a').click()
     
     elem = driver.find_element_by_css_selector("#jsch-schweekgrp > form > div.sch-gweek.sch-cal-group-week.jsch-cal-list.jco-print-template.sch-data-view-area > div.sch-gcal-target.me.cal-h-cell.jsch-cal > div.sch-gcal-target-header.me > div")
 
-    driver.save_screenshot('1after login.png')
-    print( "saved after login" )
+    #driver.save_screenshot('1after login.png')
+    #print( "saved after login" )
+    print("URL:" + driver.current_url)
+    
     return driver
 
 #スケジュールを取得して[{start:時間, title:タイトル, location:場所}, ...] の形式で返す
@@ -147,8 +149,8 @@ def getSchedule(driver):
     nth_duration = DN_SELECTOR + ' > div > div:nth-child(%d) > a > span.cal-term-text'
     size = len(driver.find_elements_by_css_selector( DN_SELECTOR + DN_SELECTOR_CL + ' > div'))
     
-    print( size )
-    print( nth_calendar_item_selector )
+    #print( size )
+    #print( nth_calendar_item_selector )
     
     driver.implicitly_wait(2)
     calendar_items = []
@@ -158,7 +160,7 @@ def getSchedule(driver):
 
         #clicking calendar item
         ith_calendar_item_selector = nth_calendar_item_selector % i
-        print(ith_calendar_item_selector)
+        #print(ith_calendar_item_selector)
         driver.find_element_by_css_selector(ith_calendar_item_selector).click()
 
         #because implicit wait did not cut
@@ -189,10 +191,10 @@ def getSchedule(driver):
             location2 = "[blank location]"
         location = "%s %s" % (location1, location2)
 
-        driver.save_screenshot('2each item_%d.png' % i)
-        print('saved 2each calendar item_%d.png' % i)
+        #driver.save_screenshot('2each item_%d.png' % i)
+        #print('saved 2each calendar item_%d.png' % i)
 
-        print("title:%s, start_time:%s, end_time:%s, location:%s" % (title,start_time,end_time,location) )
+        #print("title:%s, start_time:%s, end_time:%s, location:%s" % (title,start_time,end_time,location) )
         calendar_items.append( (title,start_time,end_time,location) )
 
     driver.implicitly_wait(10)
@@ -200,7 +202,7 @@ def getSchedule(driver):
 
 ################## main starts here ##################################
 if __name__ == "__main__":
-    print( "start:" + str(datetime.datetime.now()))
+    print( "【start】" + SLACK_USER_ID + " " + str(datetime.datetime.now()))
     
     sc = SlackClient(SLACK_TOKEN)
 
@@ -226,7 +228,7 @@ if __name__ == "__main__":
     )
 
     filtered_reminders = list(filter((lambda x: (x.get('complete_ts') == 0) and x.get('recurring') == False),current_reminders.get('reminders')))
-    print(filtered_reminders)
+    #print(filtered_reminders)
 
     #make {time:{title:[id, ...]}} dictionary of current reminders
     text_id_dic = {}
@@ -242,8 +244,8 @@ if __name__ == "__main__":
 
         text_id_dic[_time][_text].append(_id)
 
-    print("current reminders")
-    print(text_id_dic)
+    #print("current reminders")
+    #print(text_id_dic)
 
     for schedule_item in schedule_items:
         #start_time, end_time, title = schedule_item
@@ -271,4 +273,4 @@ if __name__ == "__main__":
         username="desknet's NEO スケジュール連携",
         user=SLACK_USER_ID
         )
-    print( "end:" + str(datetime.datetime.now()))
+    print( "【end  】" + SLACK_USER_ID + " " + str(datetime.datetime.now()))
