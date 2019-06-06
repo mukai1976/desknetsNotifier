@@ -105,7 +105,7 @@ def makeDriver(*, headless=True):
         options.add_argument('--headless')
     options.add_argument('--disable-gpu')
     options.add_argument('--window-size=1280,800')
-    _driver = webdriver.Chrome(chrome_options=options)
+    _driver = webdriver.Chrome(options=options)
     return EventFiringWebDriver(_driver, ScreenshotListener())
 
 def loginDesknets(driver):
