@@ -62,7 +62,7 @@ def delete_reminder(reminder_id):
     sc = SlackClient(SLACK_TOKEN)
     return sc.api_call(
         "reminders.delete",
-#        token=SLACK_TOKEN,
+        token=SLACK_TOKEN,
         reminder=reminder_id
     )
 
@@ -70,11 +70,10 @@ def post_reminder(text,time):
     sc = SlackClient(SLACK_TOKEN)
     return sc.api_call(
         "reminders.add",
-#        token=SLACK_TOKEN,
+        token=SLACK_TOKEN,
         text=text,
         time=int(time),
-        user=SLACK_USER_ID,
-        pretty=1
+        user=SLACK_USER_ID
     )
 
 # get "HH:MM - HH:MM" string and return a tuple that contains two time objects
@@ -223,9 +222,11 @@ if __name__ == "__main__":
             driver.quit()
 
     current_reminders = sc.api_call(
-    "reminders.list"
-#    token=SLACK_TOKEN
+    "reminders.list",
+    token=SLACK_TOKEN
     )
+    if not current_reminders.get('ok'):
+        print('Slack接続エラー:' +current_reminders.get('error'))
 
     filtered_reminders = list(filter((lambda x: (x.get('complete_ts') == 0) and x.get('recurring') == False),current_reminders.get('reminders')))
     #print(filtered_reminders)
