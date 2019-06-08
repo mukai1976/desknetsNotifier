@@ -127,11 +127,13 @@ def loginDesknets(driver):
     #elemは特に使わないが、ページが表示されるまで待ちたいため入れている
     elem = driver.find_element_by_css_selector(".portal-cal-body")
 
-    #スケジュール画面遷移
-    sleep(3)
+    #スケジュール画面遷移    
     driver.find_element_by_css_selector('#portal-content-1 > div.portal-content-titlebar > h3 > a').click()
-    sleep(3)
+    driver.implicitly_wait(3)
+    
+    #組織週間画面遷移
     driver.find_element_by_css_selector('#jsch-tab-schweekgrp > a').click()
+    driver.implicitly_wait(3)
     
     elem = driver.find_element_by_css_selector("#jsch-schweekgrp > form > div.sch-gweek.sch-cal-group-week.jsch-cal-list.jco-print-template.sch-data-view-area > div.sch-gcal-target.me.cal-h-cell.jsch-cal > div.sch-gcal-target-header.me > div")
 
