@@ -4,7 +4,7 @@
 
 - 使い方
   * conf配下のcredentials.template.yamlを適当なファイル名にリネーム、必要な情報を記入し、このディレクトリ内でpython main.pyを実行  
-    パラメータにリネームした(例：./conf/credentials.yaml)を設定、メンバー毎に１ファイル作成する  
+    パラメータにリネームした(例：./conf/credentials.yaml)を設定、メンバー毎にファイル作成する  
     - DN_USERNAME DN_PASSWORD DN_URL これらには自分のデスクネッツの情報を記入
     - DN_SELECTOR デスクネッツのスケジュールが表示されているセパレータを記入（メイン）    
      　【参考】  
