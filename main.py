@@ -72,7 +72,7 @@ def post_reminder(text,time):
         "reminders.add",
         #token=SLACK_TOKEN,
         text=text,
-        time=int(time)
+        time=int(time),
         user=SLACK_USER_ID
     )
 
