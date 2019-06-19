@@ -70,10 +70,10 @@ def post_reminder(text,time):
     sc = SlackClient(SLACK_TOKEN)
     return sc.api_call(
         "reminders.add",
-        token=SLACK_TOKEN,
+        #token=SLACK_TOKEN,
         text=text,
         time=int(time)
-        #user=SLACK_USER_ID
+        user=SLACK_USER_ID
     )
 
 # get "HH:MM - HH:MM" string and return a tuple that contains two time objects
